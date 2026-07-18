@@ -36,7 +36,7 @@ export default function App() {
     const wakeBackend = async () => {
       try {
         const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000"
-        await fetch(`${API_URL}/`, { method: "GET" })
+        await fetch(`${API_URL}`, { method: "GET" })
       } catch (err) {
         console.log("Backend wake-up call initiated")
       }
