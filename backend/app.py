@@ -20,216 +20,222 @@ RESPONSE_FORMAT = {"type": "json_object"}
 # ==================== ENHANCED RESUME MODELS ==================== #
 
 class Skill(BaseModel):
-    name: str
-    proficiency: str = Field(description="Beginner, Intermediate, Advanced, Expert")
-    years: float = Field(default=0)
-    verified: bool = Field(default=False, description="Can be verified from resume text")
+    name: str = ""
+    proficiency: str = "Unknown"
+    years: float = 0
+    verified: bool = False
 
 
 class ProjectMetrics(BaseModel):
-    title: str
-    description: str
-    technologies: list[str]
-    duration: str
-    impact: str = Field(default="", description="Measurable impact or outcome")
-    role: str = Field(default="")
-    verification_score: float = Field(default=0.0, description="0-100 confidence this was real")
+    title: str = ""
+    description: str = ""
+    technologies: list[str] = Field(default_factory=list)
+    duration: str = ""
+    impact: str = ""
+    role: str = ""
+    verification_score: float = 0
 
 
 class ExperienceEntry(BaseModel):
-    company: str
-    role: str
-    duration: str
-    duration_months: float = Field(default=0)
-    description: str
+    company: str = ""
+    role: str = ""
+    start_date: str = ""
+    duration: str = ""
+    duration_months: float = 0
+    description: str = ""
     key_achievements: list[str] = Field(default_factory=list)
-    team_size: int = Field(default=0)
+    team_size: int = 0
     technologies: list[str] = Field(default_factory=list)
-    seniority_level: str = Field(description="Junior, Mid-level, Senior, Lead, Executive")
+    seniority_level: str = "Entry"
 
 
 class Certification(BaseModel):
-    name: str
-    issuer: str
-    description: str=Field(default="")
-    year_obtained: int = Field(default=0)
-    is_active: bool = Field(default=True)
+    name: str = ""
+    issuer: str = ""
+    description: str = ""
+    year_obtained: int = 0
+    is_active: bool = True
 
 
 class Education(BaseModel):
-    institution: str
-    degree: str
-    duration: str
-    field_of_study: str
-    gpa: str = Field(default="")
-    honors: str = Field(default="")
+    institution: str = ""
+    degree: str = ""
+    duration: str = ""
+    field_of_study: str = ""
+    gpa: str = ""
+    honors: str = ""
 
 
 class Resume(BaseModel):
+
     # Personal
-    name: str
-    email: str = Field(default="")
-    phone: str = Field(default="")
-    location: str = Field(default="")
-    linkedin_url: str = Field(default="")
-    portfolio_url: str = Field(default="")
+    name: str = ""
+    email: str = ""
+    phone: str = ""
+    location: str = ""
+    linkedin_url: str = ""
+    portfolio_url: str = ""
 
     # Profile
-    professional_summary: str
-    total_experience_years: float
-    career_level: str = Field(description="Entry, Junior, Mid, Senior, Lead, Director, C-Level")
+    professional_summary: str = ""
+    total_experience_years: float = 0
+    career_level: str = "Entry"
 
-    # Core Data
-    skills: list[Skill]
-    experience: list[ExperienceEntry]
-    education: list[Education]
-    certifications: list[Certification]
-    projects: list[ProjectMetrics]
+    # Resume Data
+    skills: list[Skill] = Field(default_factory=list)
+    experience: list[ExperienceEntry] = Field(default_factory=list)
+    education: list[Education] = Field(default_factory=list)
+    certifications: list[Certification] = Field(default_factory=list)
+    projects: list[ProjectMetrics] = Field(default_factory=list)
 
-    # Flags & Indicators
-    additional_information: str = Field(default="")
-    consistency_score: float = Field(default=0.0, description="0-100: How consistent is the resume")
+    # Metadata
+    additional_information: str = ""
+    consistency_score: float = 0
     red_flags: list[str] = Field(default_factory=list)
     strengths: list[str] = Field(default_factory=list)
     missing_common_elements: list[str] = Field(default_factory=list)
 
 
-# ==================== ENHANCED JOB DESCRIPTION ==================== #
+# ==================== JOB DESCRIPTION ====================
 
-class JobSkillRequirement(BaseModel):
-    name: str
-    proficiency_required: str
-    years_required: float = Field(default=0)
-    is_critical: bool = Field(default=False)
-    weight: float = Field(default=1.0, description="0-1, importance multiplier")
 
 
 class JobDescription(BaseModel):
-    title: str
-    company: str = Field(default="")
-    category: str = Field(default="")
-    seniority_level: str = Field(description="Entry, Junior, Mid, Senior, Lead, Director")
-    required_years: float
-    years_in_role: float = Field(default=0)
-    
-    location: str
-    remote_policy: str = Field(default="Onsite", description="Onsite, Hybrid, Remote, Flexible")
-    relocation_provided: bool = Field(default=False)
+    title: str = ""
+    company: str = ""
+    category: str = ""
+    seniority_level: str = "Entry"
 
-    description: str
-    responsibilities: list[str]
-    required_skills: list[JobSkillRequirement]
-    preferred_skills: list[JobSkillRequirement] = Field(default_factory=list)
+    required_years: float = 0
+    years_in_role: float = 0
+
+    location: str = ""
+    remote_policy: str = ""
+    relocation_provided: bool = False
+
+    description: str = ""
+
+    responsibilities: list[str] = Field(default_factory=list)
+
+    required_skills: list[str] = Field(default=[])
+    preferred_skills: list[str] = Field(default=[])
     nice_to_have: list[str] = Field(default_factory=list)
 
-    education_requirements: list[str]
+    education_requirements: list[str] = Field(default_factory=list)
     certifications_required: list[str] = Field(default_factory=list)
-    
-    salary_min: float = Field(default=0)
-    salary_max: float = Field(default=0)
-    salary_currency: str = Field(default="USD")
 
-    tech_stack: list[str] = Field(description="Specific technologies required")
-    team_size: int = Field(default=0)
-    reports_to: str = Field(default="")
+    salary_min: float = 0
+    salary_max: float = 0
+    salary_currency: str = ""
 
-    growth_path: str = Field(default="")
-    travel_required: int = Field(default=0, description="% of time")
+    tech_stack: list[str] = Field(default_factory=list)
+
+    team_size: int = 0
+    reports_to: str = ""
+
+    growth_path: str = ""
+    travel_required: int = 0
 
 
-# ==================== PROFESSIONAL ATS ANALYSIS ==================== #
+# ==================== HR ANALYTICS ====================
 
 class SkillGapAnalysis(BaseModel):
-    skill_name: str
-    candidate_level: str
-    required_level: str
-    gap_severity: str = Field(description="None, Minor, Moderate, Critical")
-    can_learn_quickly: bool = Field(default=False)
-    importance: str = Field(description="Critical, High, Medium, Nice-to-have")
+    skill_name: str = ""
+    candidate_level: str = "Unknown"
+    required_level: str = "Unknown"
+    gap_severity: str = "None"
+    can_learn_quickly: bool = False
+    importance: str = "Medium"
 
 
 class ExperienceFitAnalysis(BaseModel):
-    total_years_match: str = Field(description="Under, Perfect, Over")
-    years_gap: float
-    relevant_experience_years: float = Field(default=0)
-    seniority_alignment: str = Field(description="Under, Perfect, Over")
-    progression_quality: str = Field(description="Weak, Average, Strong, Exceptional")
+    total_years_match: str = "Perfect"
+    years_gap: float = 0
+    relevant_experience_years: float = 0
+    seniority_alignment: str = "Perfect"
+    progression_quality: str = "Average"
 
 
 class EducationFitAnalysis(BaseModel):
-    required_met: bool
-    perfect_match: bool
-    alternative_paths_available: bool = Field(default=False)
+    required_met: bool = False
+    perfect_match: bool = False
+    alternative_paths_available: bool = False
     bonus_education: list[str] = Field(default_factory=list)
-    education_score: float = Field(default=0.0)
+    education_score: float = 0
 
 
 class CandidateViabilityScore(BaseModel):
-    overall_fit: float = Field(description="0-100")
-    can_hire_immediately: bool
-    training_required_months: float = Field(default=0)
-    risk_level: str = Field(description="Low, Medium, High, Critical")
-    long_term_potential: float = Field(description="0-100")
+    overall_fit: float = 0
+    can_hire_immediately: bool = False
+    training_required_months: float = 0
+    risk_level: str = "Medium"
+    long_term_potential: float = 0
 
 
 class HRAnalytics(BaseModel):
-    # Scoring Breakdown
-    technical_score: float = Field(description="0-100")
-    experience_score: float = Field(description="0-100")
-    education_score: float = Field(description="0-100")
-    soft_skills_score: float = Field(description="0-100, inferred from resume")
-    culture_fit_score: float = Field(description="0-100, subjective estimation")
 
-    # Detailed Analysis
-    skill_gaps: list[SkillGapAnalysis]
-    experience_analysis: ExperienceFitAnalysis
-    education_analysis: EducationFitAnalysis
-    viability: CandidateViabilityScore
+    technical_score: float = 0
+    experience_score: float = 0
+    education_score: float = 0
+    soft_skills_score: float = 0
+    culture_fit_score: float = 0
 
-    # Strengths & Concerns
-    top_strengths: list[str]
-    top_concerns: list[str]
+    skill_gaps: list[SkillGapAnalysis] = Field(default_factory=list)
+
+    experience_analysis: ExperienceFitAnalysis = Field(
+        default_factory=ExperienceFitAnalysis
+    )
+
+    education_analysis: EducationFitAnalysis = Field(
+        default_factory=EducationFitAnalysis
+    )
+
+    viability: CandidateViabilityScore = Field(
+        default_factory=CandidateViabilityScore
+    )
+
+    top_strengths: list[str] = Field(default_factory=list)
+    top_concerns: list[str] = Field(default_factory=list)
     deal_breakers: list[str] = Field(default_factory=list)
     deal_makers: list[str] = Field(default_factory=list)
 
-    # HR Recommendations
-    interview_difficulty: str = Field(description="Easy, Medium, Hard, Very Hard")
+    interview_difficulty: str = "Medium"
     negotiation_points: list[str] = Field(default_factory=list)
-    hiring_recommendation: str = Field(description="Strong Yes, Yes, Maybe, No, Strong No")
-    hiring_confidence: float = Field(description="0-100")
+    hiring_recommendation: str = "Maybe"
+    hiring_confidence: float = 0
 
-    # Detailed Reasoning
-    detailed_analysis: str
+    detailed_analysis: str = ""
 
+
+# ==================== CANDIDATE GUIDANCE ====================
 
 class CandidateGuidance(BaseModel):
-    overall_match: float = Field(description="0-100")
-    match_quality: str = Field(description="Perfect, Great, Good, Fair, Poor")
+    overall_match: float = 0
+    match_quality: str = "Poor"
 
-    # What They Have
-    matched_strengths: list[str]
-    exceeded_qualifications: list[str]
+    matched_strengths: list[str] = Field(default_factory=list)
+    exceeded_qualifications: list[str] = Field(default_factory=list)
 
-    # What They Need
-    critical_gaps: list[str]
-    nice_to_have_gaps: list[str]
-    learning_curve: str = Field(description="Easy (< 2 weeks), Moderate (2-8 weeks), Difficult (2-6 months), Very Difficult (> 6 months)")
+    critical_gaps: list[str] = Field(default_factory=list)
+    nice_to_have_gaps: list[str] = Field(default_factory=list)
 
-    # Path to Success
-    action_plan: list[str] = Field(description="Specific actions to improve fit")
-    priority_improvements: list[str] = Field(description="What to focus on first")
-    timeline_to_readiness: float = Field(description="Months needed to be fully qualified")
-    career_growth_potential: str = Field(description="Limited, Moderate, Strong, Exceptional")
+    learning_curve: str = ""
+
+    action_plan: list[str] = Field(default_factory=list)
+    priority_improvements: list[str] = Field(default_factory=list)
+
+    timeline_to_readiness: float = 0
+    career_growth_potential: str = ""
 
 
-# ==================== FINAL OUTPUT ==================== #
+# ==================== FINAL ====================
 
 class ProfessionalAnalysis(BaseModel):
-    resume: Resume
-    job_description: JobDescription
-    hr_analytics: HRAnalytics
-    candidate_guidance: CandidateGuidance
-    parse_quality_score: float = Field(description="0-100, confidence in parsing accuracy")
+    resume: Resume = Field(default_factory=Resume)
+    job_description: JobDescription = Field(default_factory=JobDescription)
+    hr_analytics: HRAnalytics = Field(default_factory=HRAnalytics)
+    candidate_guidance: CandidateGuidance = Field(default_factory=CandidateGuidance)
+    parse_quality_score: float = 0
 
 
 SCHEMA = ProfessionalAnalysis.model_json_schema()
