@@ -2,12 +2,10 @@
 
 import { useState, useEffect } from "react"
 import {
-  TrendingUp,
   CheckCircle2,
   AlertTriangle,
   Target,
   Clock,
-  Zap,
 } from "lucide-react"
 import SkeletonLoader from "./SkeletonLoader"
 
@@ -46,12 +44,6 @@ export default function CandidateDashboard({ data }: CandidateDashboardProps) {
     return "from-red-500 to-red-600"
   }
 
-  const getQualityColor = (score: number) => {
-    if (score >= 85) return "text-[#606c38]"
-    if (score >= 70) return "text-[#dda15e]"
-    if (score >= 50) return "text-[#bc6c25]"
-    return "text-red-600"
-  }
 
   return (
     <div className="min-h-screen px-4 py-12">

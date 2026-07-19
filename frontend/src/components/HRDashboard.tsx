@@ -2,13 +2,10 @@
 
 import { useState, useEffect } from "react"
 import {
-  BarChart3,
   AlertOctagon,
   TrendingUp,
   Users,
   Award,
-  XCircle,
-  CheckCircle,
 } from "lucide-react"
 import SkeletonLoader from "./SkeletonLoader"
 
@@ -37,7 +34,6 @@ export default function HRDashboard({ data }: HRDashboardProps) {
 
   const analytics = data.hr_analytics
   const resume = data.resume
-  const jobDesc = data.job_description
 
   const getRecommendationColor = (rec: string) => {
     if (rec.includes("Strong Yes")) return "bg-[#606c38]"
