@@ -12,7 +12,7 @@ if not API_KEY:
     raise ValueError("GROQ_API_KEY not found.")
 
 client = Groq(api_key=API_KEY)
-MODEL = "llama-3.3-70b-versatile"
+MODEL = "openai/gpt-oss-120b"
 
 RESPONSE_FORMAT = {"type": "json_object"}
 
